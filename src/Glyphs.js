@@ -65,8 +65,7 @@ class Glyphs
     {
         if (name === null) 
         {
-            var keys = Object.keys(this.list);
-            name = keys[Math.floor(Math.random() * keys.length)]
+            name = this.getName();
         }
 
         var glyph = new Image();
@@ -87,5 +86,12 @@ class Glyphs
         }
         return glyph;
 
+    }
+
+    getName()
+    {
+        var keys = Object.keys(this.list);
+        
+        return keys[Math.floor(Math.random() * keys.length)]
     }
 }

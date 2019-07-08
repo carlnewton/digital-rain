@@ -7,6 +7,8 @@ class Settings
         this.backgroundColour = 'rgb(0,0,0,1)';
         this.columns = 75;
         this.glyphHeightRatio = 50;
+        this.changingGlyphPercent = 5;
+        this.frameRate = 100;
         
         this.calculateGlyphSize();
     }

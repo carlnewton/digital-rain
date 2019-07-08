@@ -12,10 +12,15 @@ class DigitalRain
         
         this.ctx.fillStyle = this.settings.backgroundColour;
         this.ctx.fillRect(0, 0, this.c.width, this.c.height);
-        this.drawFrame();
+
+        this.generateGlyphs();
+
+        var _this = this;
+        this.grid.drawGlyphs(true);
+        this.loop = setInterval(function() {_this.tick()}, _this.settings.frameRate);
     }
 
-    drawFrame()
+    generateGlyphs()
     {
         var rows = Math.ceil(this.c.height / this.settings.glyphHeight);
         for (var row = 0; row < rows; row++)
@@ -26,6 +31,10 @@ class DigitalRain
             }
         }
 
+    }
+
+    tick()
+    {
         this.grid.drawGlyphs();
     }
 
