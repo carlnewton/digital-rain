@@ -8,6 +8,7 @@ gulp.task('build', function() {
             './src/DigitalRain.js',
             './src/Settings.js',
             './src/Glyphs.js',
+            './src/Drops.js',
             './src/Grid.js',
             './src/index.js' 
         ]

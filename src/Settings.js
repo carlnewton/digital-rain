@@ -9,6 +9,8 @@ class Settings
         this.glyphHeightRatio = 50;
         this.changingGlyphPercent = 5;
         this.frameRate = 100;
+        this.maximumDropLength = 100;
+        this.minimumDropLength = 2;
         
         this.calculateGlyphSize();
     }

@@ -37,15 +37,20 @@ class Grid
                 } else {
                     var glyph = this.rain.glyphs.get(glyphName);
                 }
-                if (firstFrame == true || glyphName === 'changing') {
-                    glyph.left = columnWidth * glyphCount;
-                    glyph.top = columnHeight * rowCount;
+
+                glyph.left = columnWidth * glyphCount;
+                glyph.top = columnHeight * rowCount;
+
+                if (this.rain.drops.dropExists(rowCount, glyphCount)) {
                     var _this = this;
                     glyph.onload = function() {
                         _this.rain.ctx.fillStyle = _this.rain.settings.backgroundColour;
                         _this.rain.ctx.fillRect(this.left, this.top, _this.rain.settings.glyphWidth, _this.rain.settings.glyphHeight);
                         _this.rain.ctx.drawImage(this, this.left, this.top, _this.rain.settings.glyphWidth, _this.rain.settings.glyphHeight);
                     };
+                } else {
+                    this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
+                    this.rain.ctx.fillRect(glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
                 }
                 glyphCount++;
             }

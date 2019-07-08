@@ -8,6 +8,7 @@ class DigitalRain
 
         this.settings = new Settings(this);
         this.glyphs = new Glyphs(this);
+        this.drops = new Drops(this);
         this.grid = new Grid(this);
         
         this.ctx.fillStyle = this.settings.backgroundColour;
@@ -35,6 +36,7 @@ class DigitalRain
 
     tick()
     {
+        this.drops.tick();
         this.grid.drawGlyphs();
     }
 
