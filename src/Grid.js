@@ -13,6 +13,8 @@ class Grid
 
         if (Math.random() < this.rain.settings.changingGlyphPercent / 100) {
             glyph = 'changing';
+        } else if (Math.random() < this.rain.settings.hiddenGlyphPercent / 100) {
+            glyph = 'hidden';
         }
 
         if (!this.grid[row]) {
@@ -34,12 +36,14 @@ class Grid
             var glyphCount = 0;
             for (let glyphName of row)
             {
-                var colour = this.rain.settings.glyphColour;
+                var colour = this.rain.settings.glyphColour,
+                    highlighted = false;
                 if (this.rain.drops.dropIsHighlighted(rowCount, glyphCount)) {
+                    highlighted = true;
                     var colour = this.rain.settings.highlightedGlyphColour;
                 }
 
-                if (glyphName === 'changing') {
+                if (glyphName === 'changing' || glyphName === 'hidden') {
                     var glyph = this.rain.glyphs.get(null, colour);
                 } else {
                     var glyph = this.rain.glyphs.get(glyphName, colour);
@@ -54,7 +58,9 @@ class Grid
                 ) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
                     this.rain.ctx.fillRect(glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
-                    this.rain.ctx.drawImage(glyph, glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
+                    if (glyphName !== 'hidden' || highlighted === true) {
+                        this.rain.ctx.drawImage(glyph, glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
+                    }
                 } else if (!this.rain.drops.dropExists(rowCount, glyphCount) && this.rain.drops.dropExists(rowCount + 1, glyphCount)) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
                     this.rain.ctx.fillRect(glyph.left, glyph.top - 1, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight + 1);

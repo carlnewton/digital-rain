@@ -10,8 +10,9 @@ class Settings
         this.glyphHeightRatio = 50;
         this.changingGlyphPercent = 20;
         this.changingGlyphChangeRate = 4;
+        this.hiddenGlyphPercent = 10;
         this.frameRate = 50;
-        this.maximumDropLength = 50;
+        this.maximumDropLength = this.columns;
         this.minimumDropLength = 2;
         this.dropAttemptsPerTick = 2;
         this.highlightedDropPercent = 25;
