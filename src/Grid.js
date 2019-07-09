@@ -34,10 +34,15 @@ class Grid
             var glyphCount = 0;
             for (let glyphName of row)
             {
+                var colour = this.rain.settings.glyphColour;
+                if (this.rain.drops.dropIsHighlighted(rowCount, glyphCount)) {
+                    var colour = this.rain.settings.highlightedGlyphColour;
+                }
+
                 if (glyphName === 'changing') {
-                    var glyph = this.rain.glyphs.get();
+                    var glyph = this.rain.glyphs.get(null, colour);
                 } else {
-                    var glyph = this.rain.glyphs.get(glyphName);
+                    var glyph = this.rain.glyphs.get(glyphName, colour);
                 }
 
                 glyph.left = columnWidth * glyphCount;

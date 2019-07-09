@@ -30,11 +30,28 @@ class Drops
         if (this.dropExists(0, column)) {
             return;
         }
+
+        var highlighted = false;
+        if (Math.random() < this.rain.settings.highlightedDropPercent / 100) {
+            highlighted = true;
+        }
+
         this.drops.push({
             'length': dropLength,
             'row': 0,
             'column': column,
+            'highlighted': highlighted,
         });
+    }
+
+    dropIsHighlighted(row, column)
+    {
+        for (let drop of this.drops) {
+            if (drop.highlighted === true && drop.column === column && drop.row === row) {
+                return true;
+            }
+        }
+        return false;
     }
 
     dropExists(row, column)

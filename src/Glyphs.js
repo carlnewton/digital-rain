@@ -62,36 +62,39 @@ class Glyphs
 
         this.glyphs = {};
 
-        for (const [glyphName, svg] of Object.entries(this.svgs))
-        {
-            var glyph = new Image();
+        for (let colour of [this.rain.settings.glyphColour, this.rain.settings.highlightedGlyphColour]) {
+            this.glyphs[colour] = {};
+            for (const [glyphName, svg] of Object.entries(this.svgs))
+            {
+                var glyph = new Image();
 
-            if (typeof svg === 'object') {
-                glyph.src = this.svgRect
-                    .replace('{x}', svg.x)
-                    .replace('{y}', svg.y)
-                    .replace('{w}', svg.w)
-                    .replace('{h}', svg.h)
-                    .replace('{rx}', svg.rx)
-                    .replace('{ry}', svg.ry)
-                    .replace('{colour}', this.rain.settings.glyphColour);
-            } else {
-                glyph.src = this.svgPath
-                    .replace('{path}', svg)
-                    .replace('{colour}', this.rain.settings.glyphColour);
+                if (typeof svg === 'object') {
+                    glyph.src = this.svgRect
+                        .replace('{x}', svg.x)
+                        .replace('{y}', svg.y)
+                        .replace('{w}', svg.w)
+                        .replace('{h}', svg.h)
+                        .replace('{rx}', svg.rx)
+                        .replace('{ry}', svg.ry)
+                        .replace('{colour}', this.rain.settings.glyphColour);
+                } else {
+                    glyph.src = this.svgPath
+                        .replace('{path}', svg)
+                        .replace('{colour}', colour);
+                }
+                this.glyphs[colour][glyphName] = glyph;
             }
-            this.glyphs[glyphName] = glyph;
         }
     }
 
-    get(name=null) 
+    get(name=null, colour=this.rain.settings.glyphColour) 
     {
         if (name === null) 
         {
             name = this.getName();
         }
 
-        return this.glyphs[name];
+        return this.glyphs[colour][name];
 
     }
 

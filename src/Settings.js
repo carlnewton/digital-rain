@@ -4,6 +4,7 @@ class Settings
     {
         this.rain = rain;
         this.glyphColour = 'rgb(51,204,76,1)';
+        this.highlightedGlyphColour = 'rgb(255,255,255,1)';
         this.backgroundColour = 'rgb(0,0,0,1)';
         this.columns = 75;
         this.glyphHeightRatio = 50;
@@ -13,6 +14,7 @@ class Settings
         this.maximumDropLength = 50;
         this.minimumDropLength = 2;
         this.dropAttemptsPerTick = 2;
+        this.highlightedDropPercent = 25;
         
         this.calculateGlyphSize();
     }
