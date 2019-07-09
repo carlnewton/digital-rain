@@ -5,7 +5,7 @@ class Glyphs
         this.rain = rain;
         this.svgRect = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="94" height="140" viewBox="0 0 94 140"><rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{rx}" ry="{ry}" style="fill:{colour}"/></svg>';
         this.svgPath = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="94" height="140" viewBox="0 0 94 140"><path d="{path}" fill="{colour}"/></svg>';
-        this.list = {
+        this.svgs = {
             '0': 'M67,4H32C8.667,4,6,21,6,34v77c0,16.667,15.667,23,25,24s30,0,30,0,28,1.667,28-31V27S87.667,4,67,4ZM59,28L36,68s-1-24.667-1-38,5-14,11-14S59,16,59,28Zm1,39v43s1,12-12,12-11-12-11-12v-7Z',
             '1': 'M68,137V3H39S20,9.667,20,18s15,5,15,19V138Z',
             '2': 'M6,137V125H61C61,86.333,4,73.667,4,42S19.667,4,48,4s38,8.667,38,18-6,13.667-12,8S67.667,20,56,20,34,22.333,34,41c0,33.667,56,38.481,56,95Z',
@@ -59,6 +59,29 @@ class Glyphs
             'yu': 'M92,137V124H20V47H81V29H3V138Z',
             'Z': 'M9,18V6H74c11.667,0,19.667,8,13,21s-53.333,86.333-56,90,6,5,6,5H89v13H21C9,135-.333,114.333,8,101S52.667,30,55,27s2.333-9-2-9H9Z'
         }
+
+        this.glyphs = {};
+
+        for (const [glyphName, svg] of Object.entries(this.svgs))
+        {
+            var glyph = new Image();
+
+            if (typeof svg === 'object') {
+                glyph.src = this.svgRect
+                    .replace('{x}', svg.x)
+                    .replace('{y}', svg.y)
+                    .replace('{w}', svg.w)
+                    .replace('{h}', svg.h)
+                    .replace('{rx}', svg.rx)
+                    .replace('{ry}', svg.ry)
+                    .replace('{colour}', this.rain.settings.glyphColour);
+            } else {
+                glyph.src = this.svgPath
+                    .replace('{path}', svg)
+                    .replace('{colour}', this.rain.settings.glyphColour);
+            }
+            this.glyphs[glyphName] = glyph;
+        }
     }
 
     get(name=null) 
@@ -68,29 +91,13 @@ class Glyphs
             name = this.getName();
         }
 
-        var glyph = new Image();
-
-        if (typeof this.list[name] === 'object') {
-            glyph.src = this.svgRect
-                .replace('{x}', this.list[name].x)
-                .replace('{y}', this.list[name].y)
-                .replace('{w}', this.list[name].w)
-                .replace('{h}', this.list[name].h)
-                .replace('{rx}', this.list[name].rx)
-                .replace('{ry}', this.list[name].ry)
-                .replace('{colour}', this.rain.settings.glyphColour);
-        } else {
-            glyph.src = this.svgPath
-                .replace('{path}', this.list[name])
-                .replace('{colour}', this.rain.settings.glyphColour);
-        }
-        return glyph;
+        return this.glyphs[name];
 
     }
 
     getName()
     {
-        var keys = Object.keys(this.list);
+        var keys = Object.keys(this.svgs);
         
         return keys[Math.floor(Math.random() * keys.length)]
     }

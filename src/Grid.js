@@ -3,6 +3,7 @@ class Grid
     constructor(rain)
     {
         this.rain = rain;
+        this.frame = 0;
         this.grid = [];
     }
 
@@ -21,8 +22,9 @@ class Grid
         this.grid[row][column] = glyph;
     }
 
-    drawGlyphs(firstFrame=false)
+    drawGlyphs()
     {
+        this.frame++;
         var columnWidth = this.rain.c.width / this.rain.settings.columns,
             columnHeight = columnWidth + (columnWidth / 100) * this.rain.settings.glyphHeightRatio,
             rowCount = 0;
@@ -41,16 +43,16 @@ class Grid
                 glyph.left = columnWidth * glyphCount;
                 glyph.top = columnHeight * rowCount;
 
-                if (this.rain.drops.dropExists(rowCount, glyphCount)) {
-                    var _this = this;
-                    glyph.onload = function() {
-                        _this.rain.ctx.fillStyle = _this.rain.settings.backgroundColour;
-                        _this.rain.ctx.fillRect(this.left, this.top, _this.rain.settings.glyphWidth, _this.rain.settings.glyphHeight);
-                        _this.rain.ctx.drawImage(this, this.left, this.top, _this.rain.settings.glyphWidth, _this.rain.settings.glyphHeight);
-                    };
-                } else {
+                if (
+                    this.rain.drops.dropExists(rowCount, glyphCount) 
+                    && (glyphName !== 'changing' || this.frame % this.rain.settings.changingGlyphChangeRate === 0)
+                ) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
                     this.rain.ctx.fillRect(glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
+                    this.rain.ctx.drawImage(glyph, glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
+                } else if (!this.rain.drops.dropExists(rowCount, glyphCount) && this.rain.drops.dropExists(rowCount + 1, glyphCount)) {
+                    this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
+                    this.rain.ctx.fillRect(glyph.left, glyph.top - 1, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight + 1);
                 }
                 glyphCount++;
             }

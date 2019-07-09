@@ -17,7 +17,6 @@ class DigitalRain
         this.generateGlyphs();
 
         var _this = this;
-        this.grid.drawGlyphs(true);
         this.loop = setInterval(function() {_this.tick()}, _this.settings.frameRate);
     }
 

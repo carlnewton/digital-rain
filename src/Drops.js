@@ -17,7 +17,9 @@ class Drops
             }
         }
 
-        this.generateDrop();
+        for (var dropAttempt = 1; dropAttempt <= this.rain.settings.dropAttemptsPerTick; dropAttempt++) {
+            this.generateDrop();
+        }
     }
 
     generateDrop(column=null)
@@ -53,10 +55,8 @@ class Drops
     {
         for (let drop of this.drops) {
             if (drop.column === column) {
-                for (var lookBehind = 1; lookBehind <= drop.length; lookBehind++) {
-                    if (drop.row - lookBehind === row) {
-                        return true;
-                    }
+                if (row <= drop.row && row > drop.row - drop.length) {
+                    return true;
                 }
             }
         }
