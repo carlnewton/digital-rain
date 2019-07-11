@@ -11,8 +11,7 @@ class DigitalRain
         this.drops = new Drops(this);
         this.grid = new Grid(this);
         
-        this.ctx.fillStyle = this.settings.backgroundColour;
-        this.ctx.fillRect(0, 0, this.c.width, this.c.height);
+        this.drawBackground();
 
         this.generateGlyphs();
 
@@ -37,6 +36,20 @@ class DigitalRain
     {
         this.drops.tick();
         this.grid.drawGlyphs();
+    }
+
+    resize()
+    {
+        this.setDimensions();
+        this.drawBackground();
+        this.settings.calculateGlyphSize();
+        this.generateGlyphs();
+    }
+
+    drawBackground()
+    {
+        this.ctx.fillStyle = this.settings.backgroundColour;
+        this.ctx.fillRect(0, 0, this.c.width, this.c.height);
     }
 
     setDimensions() 

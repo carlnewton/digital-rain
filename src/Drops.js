@@ -79,14 +79,4 @@ class Drops
         }
         return false;
     }
-
-    dropExistsInColumn(column)
-    {
-        for (let drop of this.drops) {
-            if (drop.column === column) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
