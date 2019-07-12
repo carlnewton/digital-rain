@@ -7,6 +7,7 @@ class DigitalRain
         this.setDimensions();
 
         this.settings = new Settings(this);
+        this.controls = new Controls(this);
         this.glyphs = new Glyphs(this);
         this.drops = new Drops(this);
         this.grid = new Grid(this);
@@ -16,6 +17,11 @@ class DigitalRain
 
         var _this = this;
         this.loop = setInterval(function() {_this.tick()}, _this.settings.frameRate);
+    }
+
+    pause()
+    {
+        this.drops.stopped = !this.drops.stopped;
     }
 
     generateGlyphs()

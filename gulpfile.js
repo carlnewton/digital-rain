@@ -7,6 +7,7 @@ gulp.task('build', function() {
         [
             './src/DigitalRain.js',
             './src/Settings.js',
+            './src/Controls.js',
             './src/Glyphs.js',
             './src/Drops.js',
             './src/Grid.js',

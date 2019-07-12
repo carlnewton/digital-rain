@@ -4,6 +4,7 @@ class Drops
     {
         this.rain = rain;
         this.drops = [];
+        this.stopped = false;
     }
 
     tick()
@@ -17,8 +18,10 @@ class Drops
             }
         }
 
-        for (var dropAttempt = 1; dropAttempt <= this.rain.settings.dropAttemptsPerTick; dropAttempt++) {
-            this.generateDrop();
+        if (!this.stopped) {
+            for (var dropAttempt = 1; dropAttempt <= this.rain.settings.dropAttemptsPerTick; dropAttempt++) {
+                this.generateDrop();
+            }
         }
     }
 
