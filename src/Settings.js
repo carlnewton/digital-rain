@@ -8,7 +8,7 @@ class Settings
         this.backgroundColour = 'rgb(0,0,0,1)';
         this.columns = 75;
         this.glyphHeightRatio = 50;
-        this.changingGlyphPercent = 20;
+        this.changingGlyphPercent = 15;
         this.changingGlyphChangeRate = 4;
         this.hiddenGlyphPercent = 10;
         this.frameRate = 50;

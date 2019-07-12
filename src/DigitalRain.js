@@ -12,7 +12,6 @@ class DigitalRain
         this.grid = new Grid(this);
         
         this.drawBackground();
-
         this.generateGlyphs();
 
         var _this = this;
@@ -29,7 +28,6 @@ class DigitalRain
                 this.grid.addGlyph(row, column)
             }
         }
-
     }
 
     tick()

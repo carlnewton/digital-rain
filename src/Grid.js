@@ -53,8 +53,11 @@ class Grid
                 glyph.top = columnHeight * rowCount;
 
                 if (
-                    this.rain.drops.dropExists(rowCount, glyphCount) 
-                    && (glyphName !== 'changing' || this.frame % this.rain.settings.changingGlyphChangeRate === 0)
+                    (this.rain.drops.dropExists(rowCount, glyphCount) 
+                    && glyphName === 'changing'
+                    && this.frame % this.rain.settings.changingGlyphChangeRate === 0)
+                    || (this.rain.drops.dropExists(rowCount, glyphCount, false) 
+                    || this.rain.drops.dropIsHighlighted(rowCount + 1, glyphCount))
                 ) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
                     this.rain.ctx.fillRect(glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);

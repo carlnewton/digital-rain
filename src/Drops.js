@@ -54,7 +54,7 @@ class Drops
         return false;
     }
 
-    dropExists(row, column)
+    dropExists(row, column, trail=true)
     {
         for (let drop of this.drops) {
             if (drop.column === column) {
@@ -62,7 +62,9 @@ class Drops
                     return true;
                 }
 
-                return this.trailExists(row, column);
+                if (trail === true) {
+                    return this.trailExists(row, column);
+                }
             }
         }
         return false;
