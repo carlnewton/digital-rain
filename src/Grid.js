@@ -43,14 +43,8 @@ class Grid
                     var colour = this.rain.settings.highlightedGlyphColour;
                 }
 
-                if (glyphName === 'changing' || glyphName === 'hidden') {
-                    var glyph = this.rain.glyphs.get(null, colour);
-                } else {
-                    var glyph = this.rain.glyphs.get(glyphName, colour);
-                }
-
-                glyph.left = columnWidth * glyphCount;
-                glyph.top = columnHeight * rowCount;
+                var left = columnWidth * glyphCount;
+                var top = columnHeight * rowCount;
 
                 if (
                     (this.rain.drops.dropExists(rowCount, glyphCount) 
@@ -60,13 +54,14 @@ class Grid
                     || this.rain.drops.dropIsHighlighted(rowCount + 1, glyphCount))
                 ) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
-                    this.rain.ctx.fillRect(glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
+                    this.rain.ctx.fillRect(left, top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
                     if (glyphName !== 'hidden' || highlighted === true) {
-                        this.rain.ctx.drawImage(glyph, glyph.left, glyph.top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
+                        var glyphCoords = this.rain.glyphs.getGlyphCoords(glyphName, colour);
+                        this.rain.ctx.drawImage(this.rain.glyphs.sprite, glyphCoords[0], glyphCoords[1], glyphCoords[2], glyphCoords[3], left, top, glyphCoords[2], glyphCoords[3])
                     }
                 } else if (!this.rain.drops.dropExists(rowCount, glyphCount) && this.rain.drops.dropExists(rowCount + 1, glyphCount)) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
-                    this.rain.ctx.fillRect(glyph.left, glyph.top - 1, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight + 1);
+                    this.rain.ctx.fillRect(left, top - 1, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight + 1);
                 }
                 glyphCount++;
             }

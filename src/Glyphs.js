@@ -76,7 +76,7 @@ class Glyphs
                         .replace('{h}', svg.h)
                         .replace('{rx}', svg.rx)
                         .replace('{ry}', svg.ry)
-                        .replace('{colour}', this.rain.settings.glyphColour);
+                        .replace('{colour}', colour);
                 } else {
                     glyph.src = this.svgPath
                         .replace('{path}', svg)
@@ -85,6 +85,8 @@ class Glyphs
                 this.glyphs[colour][glyphName] = glyph;
             }
         }
+
+        this.generateOffscreenCanvas();
     }
 
     get(name=null, colour=this.rain.settings.glyphColour) 
@@ -103,5 +105,60 @@ class Glyphs
         var keys = Object.keys(this.svgs);
         
         return keys[Math.floor(Math.random() * keys.length)]
+    }
+
+    generateOffscreenCanvas()
+    {
+        this.sprite = document.createElement('canvas');
+
+        this.sprite.width = this.rain.settings.glyphWidth * Object.keys(this.svgs).length;
+        this.sprite.height = this.rain.settings.glyphHeight * 2;
+        var offCtx = this.sprite.getContext("2d"),
+            row = 0;
+
+        for (const [colour, glyphs] of Object.entries(this.glyphs))
+        {
+            offCtx.fillStyle = colour;
+            var column = 0;
+
+            for (const [glyphName, glyph] of Object.entries(glyphs))
+            {
+                var _this = this;
+                glyph.left = this.rain.settings.glyphWidth * column;
+                glyph.top = this.rain.settings.glyphHeight * row;
+                glyph.onload = function()
+                {
+                    offCtx.drawImage(glyph, this.left, this.top, _this.rain.settings.glyphWidth, _this.rain.settings.glyphHeight);
+                }
+                column++;
+            }
+            row++;
+        }
+    }
+
+    getGlyphCoords(name, colour)
+    {
+        if (name === 'changing' || name === 'hidden')
+        {
+            name = this.getName();
+        }
+        var row = 0,
+            column = 0;
+
+        for (let rowColour of [this.rain.settings.glyphColour, this.rain.settings.highlightedGlyphColour]) 
+        {
+            if (colour === rowColour)
+            {
+                for (let svg of Object.keys(this.svgs))
+                {
+                    if (svg === name)
+                    {
+                        return [this.rain.settings.glyphWidth * column, this.rain.settings.glyphHeight * row, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight];
+                    }
+                    column++
+                }
+            }
+            row++;
+        }
     }
 }

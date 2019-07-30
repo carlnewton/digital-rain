@@ -2,9 +2,17 @@
 
 A visually and behaviourally accurately emulation of the digital rain visual effect used in The Matrix, based on research done here: https://carlnewton.github.io/digital-rain-analysis/
 
-## Preview
+## Demo
 
 https://carlnewton.github.io/digital-rain/
+
+## Controls
+
+Spacebar
+: Stop/start rain generation
+
+Scroll wheel
+: Increase/decrease glyph size
 
 ## Development
 

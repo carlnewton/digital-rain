@@ -47,6 +47,8 @@ class DigitalRain
         this.setDimensions();
         this.drawBackground();
         this.settings.calculateGlyphSize();
+        this.glyphs = new Glyphs(this);
+        this.glyphs.generateOffscreenCanvas();
         this.generateGlyphs();
     }
 
