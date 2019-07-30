@@ -65,19 +65,7 @@ class Drops
                     return true;
                 }
 
-                if (trail === true) {
-                    return this.trailExists(row, column);
-                }
-            }
-        }
-        return false;
-    }
-
-    trailExists(row, column)
-    {
-        for (let drop of this.drops) {
-            if (drop.column === column) {
-                if (row <= drop.row && row > drop.row - drop.length) {
+                if (trail === true && row <= drop.row && row > drop.row - drop.length) {
                     return true;
                 }
             }

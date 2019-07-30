@@ -5,6 +5,9 @@ class Grid
         this.rain = rain;
         this.frame = 0;
         this.grid = [];
+        this.columnWidth = 0;
+        this.columnHeight = 0;
+        this.setColumnSize();
     }
 
     addGlyph(row, column)
@@ -24,13 +27,17 @@ class Grid
         this.grid[row][column] = glyph;
     }
 
+    setColumnSize()
+    {
+        this.columnWidth = this.rain.c.width / this.rain.settings.columns;
+        this.columnHeight = this.columnWidth + (this.columnWidth / 100) * this.rain.settings.glyphHeightRatio;
+    }
+
     drawGlyphs()
     {
         this.frame++;
-        var columnWidth = this.rain.c.width / this.rain.settings.columns,
-            columnHeight = columnWidth + (columnWidth / 100) * this.rain.settings.glyphHeightRatio,
-            rowCount = 0;
 
+        var rowCount = 0;
         for (let row of this.grid) 
         {
             var glyphCount = 0;
@@ -43,15 +50,18 @@ class Grid
                     var colour = this.rain.settings.highlightedGlyphColour;
                 }
 
-                var left = columnWidth * glyphCount;
-                var top = columnHeight * rowCount;
+                var left = this.columnWidth * glyphCount,
+                    top = this.columnHeight * rowCount;
 
                 if (
-                    (this.rain.drops.dropExists(rowCount, glyphCount) 
-                    && glyphName === 'changing'
-                    && this.frame % this.rain.settings.changingGlyphChangeRate === 0)
-                    || (this.rain.drops.dropExists(rowCount, glyphCount, false) 
-                    || this.rain.drops.dropIsHighlighted(rowCount + 1, glyphCount))
+                    (
+                        glyphName === 'changing'
+                        && this.frame % this.rain.settings.changingGlyphChangeRate === 0
+                        && this.rain.drops.dropExists(rowCount, glyphCount) 
+                    ) || (
+                        this.rain.drops.dropIsHighlighted(rowCount + 1, glyphCount)
+                        || this.rain.drops.dropExists(rowCount, glyphCount, false) 
+                    )
                 ) {
                     this.rain.ctx.fillStyle = this.rain.settings.backgroundColour;
                     this.rain.ctx.fillRect(left, top, this.rain.settings.glyphWidth, this.rain.settings.glyphHeight);
